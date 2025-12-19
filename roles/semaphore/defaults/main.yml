@@ -12,7 +12,7 @@ semaphore_port: 3000
 # if Semaphore UI Pro version should be used (requires license)
 semaphore_pro: false
 
-sempahore_db_backend: sqlite
+semaphore_db_backend: sqlite
 # these vars are only used when backend is not set to 'sqlite'
 semaphore_db_host: postgres
 semaphore_db_port: 5432

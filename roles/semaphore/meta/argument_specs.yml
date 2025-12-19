@@ -44,7 +44,7 @@ argument_specs:
       # -----------------------------------------------------------------------
       # Database Settings
       # -----------------------------------------------------------------------
-      sempahore_db_backend:
+      semaphore_db_backend:
         description: "Database backend ('sqlite', 'postgres', or 'mysql')."
         default: "sqlite"
         type: str
