@@ -5,8 +5,6 @@ on: [push, pull_request]
 
 jobs:
   test:
-    needs:
-      - lint
     runs-on: ubuntu-22.04  # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
     container:
       image: python:3.9
