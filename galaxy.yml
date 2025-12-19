@@ -25,9 +25,9 @@ tags:
 dependencies:
   "community.docker": "*" # latest
 
-repository: https://github.com/adfinis/semaphoreui-ansible-collection
-documentation: https://github.com/adfinis/semaphoreui-ansible-collection/README.md
-issues: https://github.com/adfinis/semaphoreui-ansible-collection/issues
+repository: https://github.com/adfinis/ansible-collection-semaphoreui
+documentation: https://github.com/adfinis/ansible-collection-semaphoreui/README.md
+issues: https://github.com/adfinis/ansible-collection-semaphoreui/issues
 homepage: https://adfinis.com
 
 build_ignore: []
