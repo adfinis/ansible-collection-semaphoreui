@@ -1,17 +1,17 @@
 ---
 
-- name: Verify 
+- name: Molecule Verify
   hosts: all
   become: true
   gather_facts: false
   tasks:
     - name: Validate Docker Compose file
       ansible.builtin.command:
-        cmd: docker compose -f /opt/semaphore/docker-compose.yml config --quiet 
+        cmd: docker compose -f /opt/semaphore/docker-compose.yml config --quiet
       register: _compose_verify
       failed_when: false
       changed_when: false
-    
+
     - name: Assert that Docker Compose configuration is valid
       ansible.builtin.assert:
         that:
