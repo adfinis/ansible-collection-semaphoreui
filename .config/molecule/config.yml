@@ -12,7 +12,7 @@ driver:
 
 platforms:
   - name: "${MOLECULE_DISTRO:-debian13}-${TAG:-latest}-server"
-    image: "docker-mirror.tux42.ch/geerlingguy/docker-${MOLECULE_DISTRO:-debian13}-ansible:${TAG:-latest}"
+    image: "geerlingguy/docker-${MOLECULE_DISTRO:-debian13}-ansible:${TAG:-latest}"
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:rw
     command: ""
