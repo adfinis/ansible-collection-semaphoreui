@@ -1,13 +1,7 @@
 ---
 
 name: Ansible Molecule
-on:
-  push:
-    tags_ignore:
-      - '*'
-  pull_request:
-  schedule:
-    - cron: '3 2 2 * *'
+on: [push, pull_request]
 
 jobs:
   test:
