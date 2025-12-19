@@ -1,0 +1,66 @@
+---
+
+dependency:
+  name: galaxy
+  options:
+    ignore-errors: true
+    role-file: requirements.yml
+    requirements-file: requirements.yml
+
+driver:
+  name: docker
+
+platforms:
+  - name: "${MOLECULE_DISTRO:-debian13}-${TAG:-latest}-server"
+    image: "docker-mirror.tux42.ch/geerlingguy/docker-${MOLECULE_DISTRO:-debian13}-ansible:${TAG:-latest}"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    command: ""
+    privileged: true
+    pre_build_image: true
+    systemd: true
+    cgroupns_mode: host
+    capabilities:
+      - SYS_ADMIN
+    groups:
+      - servers
+
+  - name: "${MOLECULE_DISTRO:-debian13}-${TAG:-latest}-runner"
+    image: "docker-mirror.tux42.ch/geerlingguy/docker-${MOLECULE_DISTRO:-debian13}-ansible:${TAG:-latest}"
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    command: ""
+    privileged: true
+    pre_build_image: true
+    systemd: true
+    cgroupns_mode: host
+    capabilities:
+      - SYS_ADMIN
+    groups:
+      - runners
+
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_CONFIG: "../../ansible.cfg"
+    ANSIBLE_FORCE_COLOR: true
+    ANSIBLE_ROLES_PATH: "../../../roles"
+  options:
+    become: true
+  inventory:
+    group_vars:
+      all:
+        semaphore_address: molecule-test.example.com
+        semaphore_version: latest
+      servers:
+        semaphore_admin_username: admin
+        semaphore_admin_password: moleculeAdmin1337
+        semaphore_use_caddy: true
+      runners:
+        semaphore_runner_services:
+          - name: molecule-1
+            private_key_content: JustATestStringKey
+            token: JustATestStringToken
+
+verifier:
+  name: ansible
