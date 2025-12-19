@@ -1,5 +1,5 @@
 {{ ansible_managed | comment }}
-FROM semaphoreui/runner:v{{ semaphore_version }} AS builder
+FROM semaphoreui/runner:{{ semaphore_version }} AS builder
 
 FROM python:{{ item.dockerfile.python_version }}-slim-bookworm
 

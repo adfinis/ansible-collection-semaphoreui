@@ -106,3 +106,5 @@
     pull: always
     remove_orphans: true
   ignore_errors: "{{ ansible_check_mode }}"
+  tags:
+    - molecule-notest # don't start Docker in Docker

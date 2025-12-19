@@ -1,6 +1,27 @@
 ---
 
 argument_specs:
+  # separate entrypoint or else the Runner tasks will fail if vars are missing
+  server_config:
+    options:
+      semaphore_admin_username:
+        description: >-
+          Username for the Semaphore UI admin account.
+          Preferably fetched from an external secrets provider like Hashicorp Vault or OpenBao,
+          or stored locally in ansible-vault.
+          Credentials will be stored in a .env file for Docker Compose.
+        type: str
+        required: true
+
+      semaphore_admin_password:
+        type: str
+        description: >-
+          Password for the Semaphore UI admin account.
+          Preferably fetched from an external secrets provider like Hashicorp Vault or OpenBao,
+          or stored locally in ansible-vault.
+          Credentials will be stored in a .env file for Docker Compose.
+        required: true
+
   main:
     short_description: "Configuration for Semaphore UI Docker deployment"
     description: >-
@@ -39,6 +60,13 @@ argument_specs:
       semaphore_url:
         description: "Full URL for Semaphore (auto-generated from semaphore_address if not overridden)."
         default: "https://{{ semaphore_address }}"
+        type: str
+
+      semaphore_version:
+        description: >-
+          Semaphore UI version string. Example: v2.16.47.
+          Can be found at https://github.com/semaphoreui/semaphore/releases
+        default: "latest"
         type: str
 
       # -----------------------------------------------------------------------
@@ -80,24 +108,6 @@ argument_specs:
       # -----------------------------------------------------------------------
       # Login & Security
       # -----------------------------------------------------------------------
-      semaphore_admin_username:
-        description: >-
-          Username for the Semaphore UI admin account.
-          Preferably fetched from an external secrets provider like Hashicorp Vault or OpenBao,
-          or stored locally in ansible-vault.
-          Credentials will be stored in a .env file for Docker Compose.
-        type: str
-        required: true
-
-      semaphore_admin_password:
-        type: str
-        description: >-
-          Password for the Semaphore UI admin account.
-          Preferably fetched from an external secrets provider like Hashicorp Vault or OpenBao,
-          or stored locally in ansible-vault.
-          Credentials will be stored in a .env file for Docker Compose.
-        required: true
-
       semaphore_admin_name:
         description: Name for the Semaphore UI admin account.
         default: "Admin"

@@ -4,9 +4,9 @@
 services:
   semaphore:
 {% if semaphore_pro %}
-    image: public.ecr.aws/semaphore/pro/server:v{{ semaphore_version }}
+    image: public.ecr.aws/semaphore/pro/server:{{ semaphore_version }}
 {% else %}
-    image: semaphoreui/semaphore:v{{ semaphore_version }}
+    image: semaphoreui/semaphore:{{ semaphore_version }}
 {% endif %}
     container_name: semaphore
 {% if not semaphore_use_caddy %}
@@ -55,9 +55,9 @@ services:
       SEMAPHORE_EMAIL_PORT: "{{ semaphore_email_port }}""
       SEMAPHORE_EMAIL_USERNAME: "${SEMAPHORE_EMAIL_USER}"
       SEMAPHORE_EMAIL_PASSWORD: "${SEMAPHORE_EMAIL_PASSWORD}"
-      SEMAPHORE_EMAIL_SECURE: {{ semaphore_email_secure | tenary("True", "False") }}
-      SEMAPHORE_EMAIL_TLS: {{ semaphore_email_tls | tenary("True", "False") }}
-      SEMAPHORE_EMAIL_TLS_MIN_VERSION: {{ semaphore_email_tls_min_version | tenary("True", "False") }}
+      SEMAPHORE_EMAIL_SECURE: {{ semaphore_email_secure | default(false) | ternary("True", "False") }}
+      SEMAPHORE_EMAIL_TLS: {{ semaphore_email_tls | default(false) | ternary("True", "False") }}
+      SEMAPHORE_EMAIL_TLS_MIN_VERSION: {{ semaphore_email_tls_min_version | default(false) | ternary("True", "False") }}
 {% endif %}
 {% if semaphore_extra_envs is defined and semaphore_extra_envs | length > 0 %}
 
@@ -65,8 +65,10 @@ services:
       {{ key }}: {{ value }}
 {% endfor %}
 {% endif %}
+{% if semaphore_db_backend != "sqlite" or semaphore_use_caddy %}
     networks:
       - semaphore_network
+{% endif %}
 {% if semaphore_db_backend != "sqlite" %}
 
     depends_on:

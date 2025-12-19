@@ -1,0 +1,30 @@
+---
+
+name: Ansible Molecule
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04  # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
+    container:
+      image: python:3.9
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - image: "debian13"
+          - image: "fedora43"
+          - image: "ubuntu2404"
+          - image: "rockylinux9"
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          path: "${{ github.repository }}"
+
+      - name: molecule
+        uses: gofrolist/molecule-action@v2
+        with:
+          molecule_working_dir: "${{ github.repository }}/extensions"
+        env:
+          image: ${{ matrix.config.image }}

@@ -13,9 +13,9 @@ services:
       context: {{ service.dockerfile.context | default(".") }}
       dockerfile: {{ service.dockerfile.name }}
 {% elif semaphore_pro %}
-    image: public.ecr.aws/semaphore/pro/runner:v{{ service.version | default(semaphore_version) }}
+    image: public.ecr.aws/semaphore/pro/runner:{{ service.version | default(semaphore_version) }}
 {% else %}
-    image: semaphoreui/runner:v{{ service.version | default(semaphore_version) }}
+    image: semaphoreui/runner:{{ service.version | default(semaphore_version) }}
 {% endif %}
     volumes:
       - {{ semaphore_path }}/secrets/{{ service.name }}/runner.key:/etc/semaphore/runner.key:ro
