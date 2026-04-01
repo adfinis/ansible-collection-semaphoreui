@@ -1,5 +1,4 @@
 ---
-
 - name: install | Install Docker dependencies
   ansible.builtin.package:
     name: "{{ semaphore_dependencies }}"
@@ -16,7 +15,7 @@
     state: present
   notify: Apt update
   when:
-    - ansible_os_family == "Debian"
+    - ansible_facts.os_family == "Debian"
 
 - name: install | Setup Docker repository (rpm)
   ansible.builtin.yum_repository:
@@ -27,7 +26,7 @@
     enabled: true
   notify: Dnf update cache
   when:
-    - ansible_os_family == "RedHat"
+    - ansible_facts.os_family == "RedHat"
 
 # make Docker repository available
 - name: install | Flush handlers
