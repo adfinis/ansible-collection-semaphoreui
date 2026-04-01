@@ -14,7 +14,7 @@
         Dashboard > Runners > NEW RUNNER (Project Runners, only available in Semaphore UI Pro)
         Account > Runners > NEW RUNNER (System Runners)
   loop: "{{ semaphore_runner_services }}"
-  no_log: true
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
 
 - name: config-runner | Create Semaphore directories
   ansible.builtin.file:
@@ -54,6 +54,7 @@
   loop: "{{ semaphore_runner_services }}"
   vars:
     _ssh_settings: "{{ semaphore_runner_ssh_settings }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
 
 - name: config-runner | Create Python requirements.txt for Runners
   ansible.builtin.template:
@@ -70,6 +71,7 @@
     _python_requirements: "{{ item.python_requirements | default(semaphore_runner_python_requirements) }}"
   ignore_errors: "{{ ansible_check_mode }}"
   notify: Restart Semaphore
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
 
 # If the key(s) should be deployed from content (string)
 - name: config-runner | Deploy Runner private key(s) (content)
@@ -80,7 +82,7 @@
     group: "{{ semaphore_gid }}"
     mode: "0600"
     backup: true
-  no_log: true
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   when:
     - item.private_key_content is defined
   loop: "{{ semaphore_runner_services }}"
@@ -96,7 +98,7 @@
     group: "{{ semaphore_gid }}"
     mode: "0600"
     backup: true
-  no_log: true
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   when:
     - item.private_key_src is defined
   loop: "{{ semaphore_runner_services }}"
@@ -115,6 +117,7 @@
   when:
     - item.dockerfile is defined
   notify: Restart Semaphore
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
 
 # Copy custom Dockerfiles files to Runner, if they have a src attribute
 - name: config-runner | Deploy custom Dockerfiles
@@ -129,6 +132,7 @@
     - item.dockerfile is defined
     - item.dockerfile.src is defined
   notify: Restart Semaphore
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
 
 - name: config-runner | Setup compose for Semaphore
   ansible.builtin.template:
