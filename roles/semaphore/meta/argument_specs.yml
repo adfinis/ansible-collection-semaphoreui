@@ -1,5 +1,4 @@
 ---
-
 argument_specs:
   # separate entrypoint or else the Runner tasks will fail if vars are missing
   server_config:
@@ -28,7 +27,6 @@ argument_specs:
       Deploys Semaphore UI using Docker Compose, with optional Caddy reverse proxy,
       Runner configuration and external database backend support.
     options:
-
       # -----------------------------------------------------------------------
       # General Settings
       # -----------------------------------------------------------------------
@@ -213,7 +211,7 @@ argument_specs:
         description: "List of SSH configuration entries for ~/.ssh/config."
         type: list
         default:
-          - host: '*'
+          - host: "*"
             settings:
               StricHostKeyChecking: "no"
               UserKnownHostsFile: /dev/null
@@ -275,3 +273,11 @@ argument_specs:
         description: "Minimum TLS version for email (e.g. '1.2')."
         default: false
         type: raw # Can be bool or string
+
+      # -----------------------------------------------------------------------
+      # Ansible specific settings
+      # -----------------------------------------------------------------------
+      semaphore_ansible_no_log:
+        description: "Do not log sensitive data."
+        default: true
+        type: bool

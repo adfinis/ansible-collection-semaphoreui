@@ -89,3 +89,6 @@ semaphore_email_port: 25
 semaphore_email_secure: false
 semaphore_email_tls: false
 semaphore_email_tls_min_version: false
+
+# Do not log sensitive data
+semaphore_ansible_no_log: true
