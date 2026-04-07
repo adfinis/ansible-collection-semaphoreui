@@ -1,5 +1,4 @@
 ---
-
 version: 2
 updates:
   # Maintain GitHub Action dependencies
@@ -7,3 +6,5 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    cooldown:
+      default-days: 7
