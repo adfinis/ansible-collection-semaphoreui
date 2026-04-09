@@ -186,6 +186,11 @@ argument_specs:
         default:
           SEMAPHORE_DB_OPTIONS: '"{\"sslmode\":\"disable\"}"'
 
+      semaphore_extra_volumes:
+        description: "List of additional volume mappings for the Semaphore container (e.g. ['/host/path:/container/path'])."
+        type: list
+        default: []
+
       # -----------------------------------------------------------------------
       # Reverse Proxy (Caddy)
       # -----------------------------------------------------------------------

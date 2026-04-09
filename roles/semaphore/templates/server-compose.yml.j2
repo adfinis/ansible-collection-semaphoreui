@@ -20,6 +20,11 @@ services:
 {% if semaphore_python_requirements is defined and semaphore_python_requirements | length > 0 %}
       - {{ semaphore_path }}/config/requirements.txt:/etc/semaphore/requirements.txt
 {% endif %}
+{% if semaphore_extra_volumes is defined and semaphore_extra_volumes | length > 0 %}
+{% for volume in semaphore_extra_volumes %}
+      - {{ volume }}
+{% endfor %}
+{% endif %}
 
     env_file:
       - .env
