@@ -68,6 +68,8 @@ semaphore_gid: 1001
 semaphore_extra_envs:
   SEMAPHORE_DB_OPTIONS: '"{\"sslmode\":\"disable\"}"'
 
+semaphore_extra_volumes: []
+
 semaphore_ssh_settings:
   - host: '*'
     settings:
