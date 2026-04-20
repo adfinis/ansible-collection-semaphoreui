@@ -23,7 +23,7 @@ jobs:
           path: "${{ github.repository }}"
 
       - name: molecule
-        uses: gofrolist/molecule-action@9eb6dac7c5fc6dc05ccfe2fe8b01e06628513646 # v2.7.93
+        uses: gofrolist/molecule-action@e478c779d800afb09a85aee11bfa52c7223b5120 # v2.7.93
         with:
           molecule_working_dir: "${{ github.repository }}/extensions"
         env:
