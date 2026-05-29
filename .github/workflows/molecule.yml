@@ -1,11 +1,12 @@
 ---
-
 name: Ansible Molecule
 on: [push, pull_request]
 
+permissions: {}
+
 jobs:
   test:
-    runs-on: ubuntu-22.04  # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
+    runs-on: ubuntu-22.04 # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
     container:
       image: python:3.9
     strategy:
@@ -21,6 +22,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           path: "${{ github.repository }}"
+          persist-credentials: false
 
       - name: molecule
         uses: gofrolist/molecule-action@9eb6dac7c5fc6dc05ccfe2fe8b01e06628513646 # v2.7.93
