@@ -7,6 +7,8 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
   semantic-release:
     runs-on: ubuntu-latest
@@ -39,7 +41,9 @@ jobs:
 
       - name: Set version in galaxy.yml
         run: |
-          sed -re "s/^version:.*$/version: ${{ needs.semantic-release.outputs.version }}/" -i galaxy.yml
+          sed -re "s/^version:.*$/version: ${NEEDS_SEMANTIC_RELEASE_OUTPUTS_VERSION}/" -i galaxy.yml
+        env:
+          NEEDS_SEMANTIC_RELEASE_OUTPUTS_VERSION: ${{ needs.semantic-release.outputs.version }}
 
       - name: Upload collection to Ansible Galaxy
         uses: ansible/ansible-publish-action@a56a0328c92c1d4feedf5bd7f7cf7ec7a4ae3f09 # v1.0.0
