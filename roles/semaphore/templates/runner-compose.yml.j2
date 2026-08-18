@@ -18,7 +18,6 @@ services:
     image: semaphoreui/runner:{{ service.version | default(semaphore_version) }}
 {% endif %}
     volumes:
-      - {{ semaphore_path }}/secrets/{{ service.name }}/runner.key:/etc/semaphore/runner.key:ro
       - {{ semaphore_path }}/tmp/{{ service.name }}:/tmp/semaphore
       - {{ semaphore_path }}/ssh/{{ service.name }}:/home/semaphore/.ssh
 {% if service.python_requirements | default(semaphore_runner_python_requirements) is defined and service.python_reuquirements | default(semaphore_runner_python_requirements) | length > 0 %}
@@ -29,7 +28,6 @@ services:
       SEMAPHORE_RUNNER_NAME: {{ service.name }}
       SEMAPHORE_RUNNER_TOKEN: {{ service.token }}
       SEMAPHORE_WEB_ROOT: {{ semaphore_url }}
-      SEMAPHORE_RUNNER_PRIVATE_KEY_FILE: /etc/semaphore/runner.key
       SEMAPHORE_TMP_PATH: /tmp/semaphore
 {% if service.extra_envs is defined %}
 {% for key, value  in service.extra_envs.items() %}
