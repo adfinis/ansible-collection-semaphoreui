@@ -280,6 +280,45 @@ argument_specs:
         type: raw # Can be bool or string
 
       # -----------------------------------------------------------------------
+      # Metrics
+      # -----------------------------------------------------------------------
+      semaphore_metrics_enabled:
+        description: "Expose Prometheus metrics at /api/metrics."
+        default: false
+        type: bool
+
+      semaphore_metrics_username:
+        description: "Basic auth username for the metrics endpoint."
+        type: str
+
+      semaphore_metrics_password:
+        description: "Basic auth password for the metrics endpoint."
+        type: str
+
+      # -----------------------------------------------------------------------
+      # Task JWTs
+      # -----------------------------------------------------------------------
+      semaphore_jwt_enabled:
+        description: "Issue short-lived JWTs to running tasks."
+        default: false
+        type: bool
+
+      semaphore_jwt_issuer:
+        description: "Issuer URL for task JWTs."
+        default: "{{ semaphore_url }}"
+        type: str
+
+      semaphore_jwt_default_ttl:
+        description: "Default TTL for task JWTs (e.g. '1h')."
+        default: "1h"
+        type: str
+
+      semaphore_jwt_max_ttl:
+        description: "Maximum TTL for task JWTs (e.g. '24h')."
+        default: "24h"
+        type: str
+
+      # -----------------------------------------------------------------------
       # Ansible specific settings
       # -----------------------------------------------------------------------
       semaphore_ansible_no_log:

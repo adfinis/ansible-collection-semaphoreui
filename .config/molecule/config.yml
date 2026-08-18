@@ -1,5 +1,4 @@
 ---
-
 dependency:
   name: galaxy
   options:
@@ -56,6 +55,10 @@ provisioner:
         semaphore_admin_username: admin
         semaphore_admin_password: moleculeAdmin1337
         semaphore_use_caddy: true
+        semaphore_metrics_enabled: true
+        semaphore_metrics_username: metrics
+        semaphore_metrics_password: moleculeMetrics1337
+        semaphore_jwt_enabled: true
       runners:
         semaphore_runner_services:
           - name: molecule-1

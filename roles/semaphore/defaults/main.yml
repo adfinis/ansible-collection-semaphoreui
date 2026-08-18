@@ -92,5 +92,18 @@ semaphore_email_secure: false
 semaphore_email_tls: false
 semaphore_email_tls_min_version: false
 
+# Metrics endpoint (/api/metrics)
+semaphore_metrics_enabled: false
+# optional basic auth for the metrics endpoint
+# semaphore_metrics_username
+# semaphore_metrics_password
+
+# Issue short-lived JWTs to tasks
+semaphore_jwt_enabled: false
+# these vars are only used when semaphore_jwt_enabled is true
+semaphore_jwt_issuer: "{{ semaphore_url }}"
+semaphore_jwt_default_ttl: 1h
+semaphore_jwt_max_ttl: 24h
+
 # Do not log sensitive data
 semaphore_ansible_no_log: true
