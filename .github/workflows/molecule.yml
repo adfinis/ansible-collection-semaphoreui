@@ -6,7 +6,7 @@ permissions: {}
 
 jobs:
   test:
-    runs-on: ubuntu-22.04 # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
+    runs-on: ubuntu-24.04 # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
     container:
       image: python:3.9@sha256:da5aee29682d12a6649f51c8d6f15b87deb3e6c524b923c41d0cb3304d07c913
     strategy:
