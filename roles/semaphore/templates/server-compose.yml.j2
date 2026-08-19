@@ -68,6 +68,21 @@ services:
       SEMAPHORE_EMAIL_TLS: {{ semaphore_email_tls | default(false) | ternary("True", "False") }}
       SEMAPHORE_EMAIL_TLS_MIN_VERSION: {{ semaphore_email_tls_min_version | default(false) | ternary("True", "False") }}
 {% endif %}
+{% if semaphore_metrics_enabled %}
+
+      SEMAPHORE_METRICS_ENABLED: "True"
+{% if semaphore_metrics_username is defined %}
+      SEMAPHORE_METRICS_USERNAME: "${SEMAPHORE_METRICS_USERNAME}"
+      SEMAPHORE_METRICS_PASSWORD: "${SEMAPHORE_METRICS_PASSWORD}"
+{% endif %}
+{% endif %}
+{% if semaphore_jwt_enabled %}
+
+      SEMAPHORE_JWT_ENABLED: "True"
+      SEMAPHORE_JWT_ISSUER: "{{ semaphore_jwt_issuer }}"
+      SEMAPHORE_JWT_DEFAULT_TTL: "{{ semaphore_jwt_default_ttl }}"
+      SEMAPHORE_JWT_MAX_TTL: "{{ semaphore_jwt_max_ttl }}"
+{% endif %}
 {% if semaphore_extra_envs is defined and semaphore_extra_envs | length > 0 %}
 
 {% for key, value  in semaphore_extra_envs.items() %}
