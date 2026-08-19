@@ -6,6 +6,10 @@
 semaphore_timezone: UTC
 semaphore_git_client: go_git
 
+# Semaphore UI version, see:
+# https://github.com/semaphoreui/semaphore/releases
+semaphore_version: v2.19.8
+
 # when caddy is enabled as reverse proxy, this port is NOT exposed
 semaphore_port: 3000
 

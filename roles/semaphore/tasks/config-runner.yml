@@ -1,16 +1,13 @@
 ---
 
-- name: config-runner | Verify that Runner tokens and private keys exist
+- name: config-runner | Verify that Runner tokens exist
   ansible.builtin.assert:
     that:
       - item.token is defined
-      - item.private_key_content is defined or
-        item.private_key_src is defined
     fail_msg: |-
       The necessary variables in 'semaphore_runners' are missing!
-      Each runner needs a token and a private key ('private_key_content' or 'private_key_src').
-      These are required for the Runner registration to work!
-      To get those, go to the WebUI and navigate to the following:
+      Each runner needs a token, it is required for the Runner registration to work!
+      To get one, go to the WebUI and navigate to the following:
         Dashboard > Runners > NEW RUNNER (Project Runners, only available in Semaphore UI Pro)
         Account > Runners > NEW RUNNER (System Runners)
   loop: "{{ semaphore_runner_services }}"
@@ -27,7 +24,6 @@
     - "{{ semaphore_path }}"
     - "{{ semaphore_path }}/config"
     - "{{ semaphore_path }}/ssh"
-    - "{{ semaphore_path }}/secrets"
     - "{{ semaphore_path }}/tmp"
   ignore_errors: "{{ ansible_check_mode }}"
 
@@ -39,7 +35,7 @@
     group: "{{ semaphore_gid }}"
     mode: "0751"
   # nested loop to create each path (product) for each runner_service
-  loop: "{{ semaphore_runner_services | product(['config', 'ssh', 'tmp', 'secrets']) | list }}"
+  loop: "{{ semaphore_runner_services | product(['config', 'ssh', 'tmp']) | list }}"
   loop_control:
     label: "{{ item.1 }}/{{ item.0.name }}"
   ignore_errors: "{{ ansible_check_mode }}"
@@ -72,38 +68,6 @@
   ignore_errors: "{{ ansible_check_mode }}"
   notify: Restart Semaphore
   no_log: "{{ semaphore_ansible_no_log | bool }}"
-
-# If the key(s) should be deployed from content (string)
-- name: config-runner | Deploy Runner private key(s) (content)
-  ansible.builtin.copy:
-    dest: "{{ semaphore_path }}/secrets/{{ item.name }}/runner.key"
-    content: "{{ item.private_key_content }}"
-    owner: "{{ semaphore_uid }}"
-    group: "{{ semaphore_gid }}"
-    mode: "0600"
-    backup: true
-  no_log: "{{ semaphore_ansible_no_log | bool }}"
-  when:
-    - item.private_key_content is defined
-  loop: "{{ semaphore_runner_services }}"
-  ignore_errors: "{{ ansible_check_mode }}"
-  notify: Restart Semaphore
-
-# If the key(s) should be deployed as file, rather than from content
-- name: config-runner | Deploy Runner private key(s) (file)
-  ansible.builtin.copy:
-    src: "{{ item.private_key_src }}"
-    dest: "{{ semaphore_path }}/secrets/{{ item.name }}/runner.key"
-    owner: "{{ semaphore_uid }}"
-    group: "{{ semaphore_gid }}"
-    mode: "0600"
-    backup: true
-  no_log: "{{ semaphore_ansible_no_log | bool }}"
-  when:
-    - item.private_key_src is defined
-  loop: "{{ semaphore_runner_services }}"
-  ignore_errors: "{{ ansible_check_mode }}"
-  notify: Restart Semaphore
 
 # Create Dockerfiles based on template to create containers with different Ansible versions
 - name: config-runner | Generate custom dynamic Dockerfiles

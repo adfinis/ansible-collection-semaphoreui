@@ -62,9 +62,9 @@ argument_specs:
 
       semaphore_version:
         description: >-
-          Semaphore UI version string. Example: v2.16.47.
+          Semaphore UI version string. Example: v2.19.8.
           Can be found at https://github.com/semaphoreui/semaphore/releases
-        default: "latest"
+        default: "v2.19.8"
         type: str
 
       # -----------------------------------------------------------------------
