@@ -1,13 +1,13 @@
 ---
 
-- name: Make sure target is in necessary host groups
+- name: Make sure semaphore_type is valid
   ansible.builtin.assert:
     that:
-      - inventory_hostname in groups['servers'] or
-        inventory_hostname in groups['runners']
+      - semaphore_type in ['server', 'runner']
     fail_msg: >-
-      Host is neither in group 'servers' or 'runners'!
+      semaphore_type must be either 'server' or 'runner', got '{{ semaphore_type }}'!
       Check the Collection README for more information.
+  tags: always
 
 - name: Include OS-specific vars
   ansible.builtin.include_vars: "{{ item }}"
@@ -26,7 +26,7 @@
 
 - name: Configure Semaphore UI Server in Docker
   ansible.builtin.import_tasks: config-server.yml
-  when: inventory_hostname in groups['servers']
+  when: semaphore_type == 'server'
   tags:
     - "role::semaphore"
     - "role::semaphore:config"
@@ -34,7 +34,7 @@
 
 - name: Configure Semaphore UI Runner(s) in Docker
   ansible.builtin.import_tasks: config-runner.yml
-  when: inventory_hostname in groups['runners']
+  when: semaphore_type == 'runner'
   tags:
     - "role::semaphore"
     - "role::semaphore:config"

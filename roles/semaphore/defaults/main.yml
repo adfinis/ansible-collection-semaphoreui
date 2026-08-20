@@ -3,6 +3,9 @@
 ##
 # general settings
 
+# role of this host: 'server' or 'runner'
+semaphore_type: server
+
 semaphore_timezone: UTC
 semaphore_git_client: go_git
 
@@ -41,9 +44,11 @@ semaphore_login_totp_allow_recovery: false
 semaphore_oidc_providers: ""
 
 # persistent encryption secrets
-semaphore_cookie_hash: "{{ lookup('ansible.builtin.password', '/dev/null', seed=hostvars[groups['servers'][0]].inventory_hostname + 'cookie_hash', length=32, chars='ascii_letters') | b64encode }}"
-semaphore_cookie_encryption: "{{ lookup('ansible.builtin.password', '/dev/null', seed=hostvars[groups['servers'][0]].inventory_hostname + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
-semaphore_access_key_encryption: "{{ lookup('ansible.builtin.password', '/dev/null', seed=hostvars[groups['servers'][0]].inventory_hostname + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
+# seeded from semaphore_address so all servers of one instance share the same secrets.
+# It is strongly recommended to set these explicitly (e.g. via ansible-vault).
+semaphore_cookie_hash: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_hash', length=32, chars='ascii_letters') | b64encode }}"
+semaphore_cookie_encryption: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
+semaphore_access_key_encryption: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
 ##
 # Docker settings

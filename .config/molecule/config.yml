@@ -59,6 +59,7 @@ provisioner:
         semaphore_metrics_password: moleculeMetrics1337
         semaphore_jwt_enabled: true
       runners:
+        semaphore_type: runner
         semaphore_runner_services:
           - name: molecule-1
             token: JustATestStringToken
