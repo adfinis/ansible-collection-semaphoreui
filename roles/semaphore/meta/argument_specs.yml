@@ -149,9 +149,34 @@ argument_specs:
         default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
       semaphore_access_key_encryption:
-        description: "Secret for access key encryption. Auto-generated with persistent seed."
+        description: "Legecy secret for access key encryption. Use semaphore_encryption_keys instead."
         type: str
         default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
+
+      semaphore_encryption_keys:
+        description: >-
+          Encryption keyring with key rotation support.
+        type: dict
+        default: {}
+
+      semaphore_encryption_secret_key:
+        description: >-
+          Name of the active key used to encrypt access key secrets. Required when semaphore_encryption_keys is set.
+        type: str
+        default: ""
+
+      semaphore_encryption_option_key:
+        description: >-
+          Name of the active key used for encrypted DB options (e.g. JWT signing key). Defaults to the secret key when empty.
+        type: str
+        default: ""
+
+      semaphore_encryption_keys_poll_interval:
+        description: >-
+          Interval at which Semaphore re-reads the keys file, so rotated keys apply
+          without a restart. "0" disables polling.
+        type: str
+        default: "15s"
 
       # -----------------------------------------------------------------------
       # System & Docker

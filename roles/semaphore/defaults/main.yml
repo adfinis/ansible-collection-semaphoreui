@@ -50,6 +50,15 @@ semaphore_cookie_hash: "{{ lookup('ansible.builtin.password', '/dev/null', seed=
 semaphore_cookie_encryption: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
 semaphore_access_key_encryption: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
+# encryption keyring. See: https://semaphoreui.com/docs/admin-guide/security/encryption
+semaphore_encryption_keys: {}
+# label of the key used to encrypt Access Key secrets
+semaphore_encryption_secret_key: ""
+# label of the key used for encrypted DB options, defaults to the secret key
+semaphore_encryption_option_key: ""
+# how often Semaphore re-reads the keys file. "0" disables polling.
+semaphore_encryption_keys_poll_interval: 15s
+
 ##
 # Docker settings
 

@@ -105,6 +105,20 @@ semaphore_access_key_encryption: "..."
 > variables **before** changing `semaphore_address` or upgrading to a role
 > version that changes the seed.
 
+##### Encryption keyring
+
+Secrets can be encrypted with a [keyring](https://semaphoreui.com/docs/admin-guide/security/encryption)
+that supports key rotation:
+
+``` yaml
+semaphore_encryption_keys:
+  key1: "..."  # openssl rand -base64 32
+semaphore_encryption_secret_key: key1
+```
+
+After adding or rotating a key, run `semaphore vault rekey` inside the container.
+See the upstream docs for details.
+
 ##### Playbook
 The Ansible Collection features a playbook to call the role `adfinis.semaphoreui.semaphore` without having to write one yourself:
 ``` bash
