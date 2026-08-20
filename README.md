@@ -33,29 +33,36 @@ Ansible role to deploy and manage Semaphore UI servers and runners using Docker 
 #### Usage
 ##### Inventory
 
-The Ansible role expect two host groups: `servers` (required!), `runners` (optional).
-The individual server and runner tasks are only applied to hosts in their relative host group.
+The role does not assume any host group names. Whether a host is configured as a
+Semaphore UI server or a runner is controlled by the variable `semaphore_type`
+(`server` (default) or `runner`). Set it per host or per group, however your
+inventory is organized.
 
 A simple example:
 
 **INI:**
 ```ini
-[servers]
+[semaphore_servers]
 vm-semaphore-server-01.example.com
 
-[runners]
+[semaphore_runners]
 vm-semaphore-runner-01.example.com
 vm-semaphore-runner-02.example.com
+
+[semaphore_runners:vars]
+semaphore_type=runner
 ```
 
 **YAML:**
 ``` yaml
 ---
-servers:
+semaphore_servers:
   hosts:
     vm-semaphore-server-01.example.com:
 
-runners:
+semaphore_runners:
+  vars:
+    semaphore_type: runner
   hosts:
     vm-semaphore-runner-01.example.com:
     vm-semaphore-runner-02.example.com:
@@ -72,6 +79,31 @@ The following variables are required:
 * `semaphore_address`: Public domain or IP address for the Semaphore instance. 
 * `semaphore_admin_username`: Username for the Semaphore UI admin account.
 * `semaphore_admin_password`: Password for the Semaphore UI admin account.
+
+##### Encryption secrets
+
+Semaphore UI needs three persistent secrets: `semaphore_cookie_hash`,
+`semaphore_cookie_encryption` and `semaphore_access_key_encryption`.
+If you don't set them, the role generates them **deterministically** from
+`semaphore_address`. This keeps them stable across runs and identical on all
+servers of one instance, but it also means anyone who knows your
+`semaphore_address` can reproduce them. You should therefore set all three
+explicitly, e.g. stored in `ansible-vault` or fetched from an external secrets
+provider:
+
+``` yaml
+semaphore_cookie_hash: "..."
+semaphore_cookie_encryption: "..."
+semaphore_access_key_encryption: "..."
+```
+
+> [!WARNING]
+> `semaphore_access_key_encryption` is used to encrypt the access
+> keys stored in Semaphore. Changing it on an existing deployment makes those
+> keys unreadable. If you currently rely on the auto-generated defaults, copy
+> the existing values from `<semaphore_path>/.env` on your server into your
+> variables **before** changing `semaphore_address` or upgrading to a role
+> version that changes the seed.
 
 ##### Playbook
 The Ansible Collection features a playbook to call the role `adfinis.semaphoreui.semaphore` without having to write one yourself:

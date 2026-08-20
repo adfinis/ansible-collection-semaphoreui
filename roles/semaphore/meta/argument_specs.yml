@@ -30,6 +30,14 @@ argument_specs:
       # -----------------------------------------------------------------------
       # General Settings
       # -----------------------------------------------------------------------
+      semaphore_type:
+        description: "Whether this host runs a Semaphore UI server or a runner."
+        default: "server"
+        type: str
+        choices:
+          - server
+          - runner
+
       semaphore_timezone:
         description: "Timezone for the Semaphore server."
         default: "UTC"
@@ -133,17 +141,17 @@ argument_specs:
       semaphore_cookie_hash:
         description: "Secret for cookie hashing. Auto-generated with persistent seed."
         type: str
-        default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=hostvars[groups['servers'][0]].inventory_hostname + 'cookie_hash', length=32, chars='ascii_letters') | b64encode }}"
+        default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_hash', length=32, chars='ascii_letters') | b64encode }}"
 
       semaphore_cookie_encryption:
         description: "Secret for cookie encryption. Auto-generated with persistent seed."
         type: str
-        default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=hostvars[groups['servers'][0]].inventory_hostname + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
+        default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
       semaphore_access_key_encryption:
         description: "Secret for access key encryption. Auto-generated with persistent seed."
         type: str
-        default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=hostvars[groups['servers'][0]].inventory_hostname + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
+        default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
       # -----------------------------------------------------------------------
       # System & Docker
