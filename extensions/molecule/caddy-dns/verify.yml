@@ -1,0 +1,41 @@
+---
+
+- name: Molecule Verify
+  hosts: all
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Validate Docker Compose file
+      ansible.builtin.command:
+        cmd: docker compose -f /opt/semaphore/docker-compose.yml config --quiet
+      register: _compose_verify
+      failed_when: false
+      changed_when: false
+
+    - name: Assert that Docker Compose configuration is valid
+      ansible.builtin.assert:
+        that:
+          - "_compose_verify.rc == 0"
+
+    - name: Read rendered Caddy files
+      ansible.builtin.slurp:
+        src: "{{ item }}"
+      loop:
+        - /opt/semaphore/config/caddy/Caddyfile
+        - /opt/semaphore/config/caddy/Dockerfile
+        - /opt/semaphore/.caddy.env
+      register: _caddy_files
+      when: "'servers' in group_names"
+
+    - name: Assert DNS-01 challenge is configured
+      ansible.builtin.assert:
+        that:
+          - "'dns azure {' in _caddyfile"
+          - "'client_secret {env.AZURE_CLIENT_SECRET}' in _caddyfile"
+          - "'--with github.com/caddy-dns/azure' in _dockerfile"
+          - "'AZURE_CLIENT_SECRET=moleculeSecret1337' in _caddy_env"
+      vars:
+        _caddyfile: "{{ _caddy_files.results[0].content | b64decode }}"
+        _dockerfile: "{{ _caddy_files.results[1].content | b64decode }}"
+        _caddy_env: "{{ _caddy_files.results[2].content | b64decode }}"
+      when: "'servers' in group_names"

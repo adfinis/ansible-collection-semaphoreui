@@ -217,6 +217,50 @@ argument_specs:
         default: 443
         type: int
 
+      semaphore_caddy_version:
+        description: "Tag of the Caddy runtime image (caddy:<tag>)."
+        default: "2.11.4-alpine"
+        type: str
+
+      semaphore_caddy_digest:
+        description: "Digest of the Caddy runtime image. Set to '' to only pin by tag."
+        default: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
+        type: str
+
+      semaphore_caddy_builder_version:
+        description: "Tag of the Caddy builder image, used when building with semaphore_caddy_modules."
+        default: "2.11.4-builder"
+        type: str
+
+      semaphore_caddy_builder_digest:
+        description: "Digest of the Caddy builder image. Set to '' to only pin by tag."
+        default: "sha256:4bdeabce8e79d36b23d1cba7d20598cec2c1117ace960d8ca06071f945e8fc9b"
+        type: str
+
+      semaphore_caddy_dns_provider:
+        description: >-
+          Use the ACME DNS-01 challenge via this caddy-dns provider (e.g. 'azure').
+        type: str
+        required: false
+
+      semaphore_caddy_dns_provider_config:
+        description: >-
+          Settings rendered into the dns provider block of the Caddyfile.
+          Use {env.VAR} placeholders for secrets and set them in semaphore_caddy_env.
+        default: {}
+        type: dict
+
+      semaphore_caddy_modules:
+        description: "Caddy modules to build into the image. Defaults to the DNS provider module, if set."
+        type: list
+        elements: str
+        required: false
+
+      semaphore_caddy_env:
+        description: "Environment variables for the Caddy container."
+        default: {}
+        type: dict
+
       # -----------------------------------------------------------------------
       # SSH & Python Dependencies
       # -----------------------------------------------------------------------

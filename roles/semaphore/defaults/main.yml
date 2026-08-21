@@ -68,6 +68,18 @@ semaphore_use_caddy: false
 # these vars are only used when caddy is enabled
 semaphore_caddy_http_port: 80
 semaphore_caddy_https_port: 443
+# renovate: datasource=docker depName=caddy
+semaphore_caddy_version: "2.11.4-alpine"
+semaphore_caddy_digest: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
+# renovate: datasource=docker depName=caddy
+semaphore_caddy_builder_version: "2.11.4-builder"
+semaphore_caddy_builder_digest: "sha256:4bdeabce8e79d36b23d1cba7d20598cec2c1117ace960d8ca06071f945e8fc9b"
+# optional: use the ACME DNS-01 challenge with a caddy-dns provider, e.g. "azure"
+# semaphore_caddy_dns_provider: azure
+semaphore_caddy_dns_provider_config: {}
+semaphore_caddy_modules: "{{ ['github.com/caddy-dns/' ~ semaphore_caddy_dns_provider] if semaphore_caddy_dns_provider is defined else [] }}"
+# environment variables for the Caddy container
+semaphore_caddy_env: {}
 
 # UID/GID that are used in the Semaphore containers
 # 1001 is the default by Semaphore
