@@ -132,6 +132,32 @@
   when:
     - semaphore_use_caddy # default: false
 
+- name: config-server | Deploy Caddy Dockerfile
+  ansible.builtin.template:
+    src: templates/Dockerfile.caddy.j2
+    dest: "{{ semaphore_path }}/config/caddy/Dockerfile"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Semaphore
+  ignore_errors: "{{ ansible_check_mode }}"
+  when:
+    - semaphore_use_caddy
+    - semaphore_caddy_modules | length > 0
+
+- name: config-server | Write Caddy environment to .caddy.env file
+  ansible.builtin.template:
+    src: templates/caddy.env.j2
+    dest: "{{ semaphore_path }}/.caddy.env"
+    owner: root
+    group: root
+    mode: "0640"
+  notify: Restart Semaphore
+  ignore_errors: "{{ ansible_check_mode }}"
+  when:
+    - semaphore_use_caddy
+    - semaphore_caddy_env | length > 0
+
 - name: config-server | Start Semaphore UI stack via Docker Compose
   community.docker.docker_compose_v2:
     project_src: "{{ semaphore_path }}"

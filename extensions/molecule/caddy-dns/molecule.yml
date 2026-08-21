@@ -1,0 +1,19 @@
+---
+# merged with .config/molecule/config.yml
+provisioner:
+  inventory:
+    group_vars:
+      servers:
+        semaphore_caddy_dns_provider: azure
+        semaphore_caddy_dns_provider_config:
+          tenant_id: "{env.AZURE_TENANT_ID}"
+          client_id: "{env.AZURE_CLIENT_ID}"
+          client_secret: "{env.AZURE_CLIENT_SECRET}"
+          subscription_id: "{env.AZURE_SUBSCRIPTION_ID}"
+          resource_group_name: "{env.AZURE_RESOURCE_GROUP_NAME}"
+        semaphore_caddy_env:
+          AZURE_TENANT_ID: molecule-tenant
+          AZURE_CLIENT_ID: molecule-client
+          AZURE_CLIENT_SECRET: moleculeSecret1337
+          AZURE_SUBSCRIPTION_ID: molecule-subscription
+          AZURE_RESOURCE_GROUP_NAME: molecule-rg

@@ -1,3 +1,23 @@
 {
-  "extends": ["github>adfinis/renovate-config"]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>adfinis/renovate-config"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Caddy image tags and digests",
+      "managerFilePatterns": ["/^roles/semaphore/defaults/main\\.yml$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\S+_version: \"(?<currentValue>[^\"]+)\"\\n\\S+_digest: \"(?<currentDigest>sha256:[a-f0-9]+)\"\\n"
+      ],
+      "versioningTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Keep Caddy runtime and builder image in sync",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["caddy"],
+      "groupName": "caddy"
+    }
+  ]
 }
