@@ -149,7 +149,7 @@ argument_specs:
         default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'cookie_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
       semaphore_access_key_encryption:
-        description: "Legecy secret for access key encryption. Use semaphore_encryption_keys instead."
+        description: "Legacy secret for access key encryption. Use semaphore_encryption_keys instead."
         type: str
         default: "{{ lookup('ansible.builtin.password', '/dev/null', seed=semaphore_address + 'access_key_encryption', length=32, chars='ascii_letters') | b64encode }}"
 
