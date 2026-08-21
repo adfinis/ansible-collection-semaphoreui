@@ -169,7 +169,7 @@ argument_specs:
         description: >-
           Name of the active key used for encrypted DB options (e.g. JWT signing key). Defaults to the secret key when empty.
         type: str
-        default: ""
+        default: "{{ semaphore_encryption_secret_key | default('') }}"
 
       semaphore_encryption_keys_poll_interval:
         description: >-
