@@ -118,9 +118,21 @@ services:
 {% if semaphore_use_caddy %}
 
   caddy:
-    image: caddy:alpine
+{% if semaphore_caddy_modules | length > 0 %}
+    build:
+      context: {{ semaphore_path }}/config/caddy
+      dockerfile: Dockerfile
+    image: semaphore-caddy:{{ semaphore_caddy_version }}
+    pull_policy: build
+{% else %}
+    image: docker.io/library/caddy:{{ semaphore_caddy_version }}{{ '@' ~ semaphore_caddy_digest if semaphore_caddy_digest }}
+{% endif %}
     container_name: semaphore-caddy
     restart: always
+{% if semaphore_caddy_env | length > 0 %}
+    env_file:
+      - .caddy.env
+{% endif %}
     ports:
       - "{{ semaphore_caddy_http_port }}:80"
       - "{{ semaphore_caddy_https_port}}:443"

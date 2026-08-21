@@ -17,6 +17,9 @@ jobs:
           - image: "fedora43"
           - image: "ubuntu2404"
           - image: "rockylinux9"
+        scenario:
+          - default
+          - caddy-dns
     steps:
       - name: checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -28,5 +31,6 @@ jobs:
         uses: gofrolist/molecule-action@73947bd854497be46185c3eda9c9cbe3bc28916c # v2.9.7
         with:
           molecule_working_dir: "${{ github.repository }}/extensions"
+          molecule_args: "-s ${{ matrix.scenario }}"
         env:
           image: ${{ matrix.config.image }}

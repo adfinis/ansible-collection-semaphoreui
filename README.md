@@ -105,6 +105,32 @@ semaphore_access_key_encryption: "..."
 > variables **before** changing `semaphore_address` or upgrading to a role
 > version that changes the seed.
 
+##### Caddy with DNS-01 challenge
+
+By default Caddy uses the HTTP-01 challenge, which require ports 80/443 to be
+publicly reachable. Alternatively, set a [caddy-dns](https://github.com/caddy-dns) provider to use
+the DNS-01 challenge. The role then builds a custom Caddy image with the provider module.
+The Caddy images are pinned by tag and digest (`semaphore_caddy_*_version`/`_digest`).
+
+**Example:**
+
+``` yaml
+semaphore_use_caddy: true
+semaphore_caddy_dns_provider: azure
+semaphore_caddy_dns_provider_config:
+  tenant_id: "{env.AZURE_TENANT_ID}"
+  client_id: "{env.AZURE_CLIENT_ID}"
+  client_secret: "{env.AZURE_CLIENT_SECRET}"
+  subscription_id: "{env.AZURE_SUBSCRIPTION_ID}"
+  resource_group_name: "{env.AZURE_RESOURCE_GROUP_NAME}"
+semaphore_caddy_env:
+  AZURE_TENANT_ID: "..."
+  AZURE_CLIENT_ID: "..."
+  AZURE_CLIENT_SECRET: "..."
+  AZURE_SUBSCRIPTION_ID: "..."
+  AZURE_RESOURCE_GROUP_NAME: "..."
+```
+
 ##### Playbook
 The Ansible Collection features a playbook to call the role `adfinis.semaphoreui.semaphore` without having to write one yourself:
 ``` bash
