@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+keys:
+{% for name, value in semaphore_encryption_keys.items() %}
+  {{ name }}: { value: "{{ value }}" }
+{% endfor %}
+active:
+  secret_key: {{ semaphore_encryption_secret_key }}
+{% if semaphore_encryption_option_key %}
+  option_key: {{ semaphore_encryption_option_key }}
+{% endif %}
