@@ -52,6 +52,39 @@
   ignore_errors: "{{ ansible_check_mode }}"
   notify: Restart Semaphore
 
+- name: config-server | Validate encryption keyring
+  ansible.builtin.assert:
+    that:
+      - semaphore_encryption_secret_key in semaphore_encryption_keys
+      - not semaphore_encryption_option_key or semaphore_encryption_option_key in semaphore_encryption_keys
+      - semaphore_encryption_keys.values() | select('string') | list | length == semaphore_encryption_keys | length
+    fail_msg: >-
+      semaphore_encryption_secret_key must name a key in semaphore_encryption_keys,
+      semaphore_encryption_option_key (if set) must name a key in semaphore_encryption_keys.
+    quiet: true
+  when:
+    - semaphore_encryption_keys | length > 0
+
+# No restart required on change. Semaphore re-reads the keys file automatically.
+- name: config-server | Write encryption keys file
+  ansible.builtin.template:
+    src: templates/encryption-keys.yml.j2
+    dest: "{{ semaphore_path }}/config/encryption-keys.yml"
+    owner: "{{ semaphore_uid }}"
+    group: "{{ semaphore_gid }}"
+    mode: "0400"
+  when:
+    - semaphore_encryption_keys | length > 0
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
+  ignore_errors: "{{ ansible_check_mode }}"
+
+- name: config-server | Remove encryption keys file when keyring is disabled
+  ansible.builtin.file:
+    path: "{{ semaphore_path }}/config/encryption-keys.yml"
+    state: absent
+  when:
+    - semaphore_encryption_keys | length == 0
+
 - name: config-server | Setup compose for Semaphore
   ansible.builtin.template:
     src: templates/server-compose.yml.j2

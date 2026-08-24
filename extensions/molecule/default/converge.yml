@@ -4,6 +4,12 @@
   gather_facts: true
   roles:
     - semaphore
+  vars:
+    semaphore_encryption_keys:
+      key1: "{{ 'molecule-test-encryption-key-32b!' | b64encode }}"
+      key2: "{{ 'molecule-test-encryption-key2-32b' | b64encode }}"
+    semaphore_encryption_secret_key: key1
+    semaphore_encryption_option_key: key2
   pre_tasks:
     - name: Update apt cache
       ansible.builtin.apt:

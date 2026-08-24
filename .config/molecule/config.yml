@@ -51,6 +51,7 @@ provisioner:
       all:
         semaphore_address: molecule-test.example.com
       servers:
+        semaphore_type: server
         semaphore_admin_username: admin
         semaphore_admin_password: moleculeAdmin1337
         semaphore_use_caddy: true

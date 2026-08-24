@@ -16,3 +16,19 @@
       ansible.builtin.assert:
         that:
           - "_compose_verify.rc == 0"
+
+    - name: Read encryption keys file
+      ansible.builtin.slurp:
+        src: /opt/semaphore/config/encryption-keys.yml
+      register: _keys_file
+      when: semaphore_type == 'server'
+
+    - name: Assert encryption keys file is rendered correctly
+      ansible.builtin.assert:
+        that:
+          - "_keys['keys'].key1.value | length > 0"
+          - "_keys.active.secret_key == 'key1'"
+          - "_keys.active.option_key == 'key2'"
+      vars:
+        _keys: "{{ _keys_file.content | b64decode | from_yaml }}"
+      when: semaphore_type == 'server'

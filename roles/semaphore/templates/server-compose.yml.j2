@@ -17,6 +17,9 @@ services:
       - {{ semaphore_path }}/tmp:/tmp/semaphore
       - {{ semaphore_path }}/data/semaphore:/var/lib/semaphore
       - {{ semaphore_path }}/config/ssh:/home/semaphore/.ssh
+{% if semaphore_encryption_keys | length > 0 %}
+      - {{ semaphore_path }}/config/encryption-keys.yml:/etc/semaphore/encryption-keys.yml:ro
+{% endif %}
 {% if semaphore_python_requirements is defined and semaphore_python_requirements | length > 0 %}
       - {{ semaphore_path }}/config/requirements.txt:/etc/semaphore/requirements.txt
 {% endif %}
@@ -56,6 +59,11 @@ services:
       SEMAPHORE_COOKIE_HASH: "${SEMAPHORE_COOKIE_HASH}"
       SEMAPHORE_COOKIE_ENCRYPTION: "${SEMAPHORE_COOKIE_ENCRYPTION}"
       SEMAPHORE_ACCESS_KEY_ENCRYPTION: "${SEMAPHORE_ACCESS_KEY_ENCRYPTION}"
+{% if semaphore_encryption_keys | length > 0 %}
+
+      SEMAPHORE_ENCRYPTION_KEYS_FILE: "/etc/semaphore/encryption-keys.yml"
+      SEMAPHORE_ENCRYPTION_KEYS_POLL_INTERVAL: "{{ semaphore_encryption_keys_poll_interval }}"
+{% endif %}
 {% if semaphore_email_alert %}
 
       SEMAPHORE_EMAIL_ALERT: "True"
