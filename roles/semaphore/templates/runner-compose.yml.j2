@@ -13,9 +13,9 @@ services:
       context: {{ service.dockerfile.context | default(".") }}
       dockerfile: {{ service.dockerfile.name }}
 {% elif semaphore_pro %}
-    image: public.ecr.aws/semaphore/pro/runner:{{ service.version | default(semaphore_version) }}
+    image: public.ecr.aws/semaphore/pro/runner:{{ service.version | default(semaphore_version) | default(semaphore_pro_runner_version) }}{{ '@' ~ semaphore_pro_runner_digest if semaphore_pro_runner_digest and service.version is not defined and semaphore_version is not defined }}
 {% else %}
-    image: semaphoreui/runner:{{ service.version | default(semaphore_version) }}
+    image: semaphoreui/runner:{{ service.version | default(semaphore_version) | default(semaphore_runner_version) }}{{ '@' ~ semaphore_runner_digest if semaphore_runner_digest and service.version is not defined and semaphore_version is not defined }}
 {% endif %}
     volumes:
       - {{ semaphore_path }}/tmp/{{ service.name }}:/tmp/semaphore

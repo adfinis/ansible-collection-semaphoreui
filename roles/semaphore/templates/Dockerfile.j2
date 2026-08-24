@@ -1,5 +1,5 @@
 {{ ansible_managed | comment }}
-FROM semaphoreui/runner:{{ semaphore_version }} AS builder
+FROM semaphoreui/runner:{{ semaphore_version | default(semaphore_runner_version) }}{{ '@' ~ semaphore_runner_digest if semaphore_runner_digest and semaphore_version is not defined }} AS builder
 
 FROM python:{{ item.dockerfile.python_version }}-slim-bookworm
 

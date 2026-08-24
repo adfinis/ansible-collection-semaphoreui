@@ -4,10 +4,14 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Caddy image tags and digests",
-      "managerFilePatterns": ["/^roles/semaphore/defaults/main\\.yml$/"],
+      "description": "Image tags and digests in role defaults and argument specs",
+      "managerFilePatterns": [
+        "/^roles/semaphore/defaults/main\\.yml$/",
+        "/^roles/semaphore/meta/argument_specs\\.yml$/"
+      ],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\S+_version: \"(?<currentValue>[^\"]+)\"\\n\\S+_digest: \"(?<currentDigest>sha256:[a-f0-9]+)\"\\n"
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\S+_version: \"(?<currentValue>[^\"]+)\"\\n\\S+_digest: \"(?<currentDigest>sha256:[a-f0-9]+)\"\\n",
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n\\s+\\S+_version:\\n(?:.*\\n)*?\\s+default: \"(?<currentValue>[^\"]+)\"\\n(?:.*\\n)*?\\s+\\S+_digest:\\n(?:.*\\n)*?\\s+default: \"(?<currentDigest>sha256:[a-f0-9]+)\"\\n"
       ],
       "versioningTemplate": "docker"
     }
@@ -18,6 +22,17 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["caddy"],
       "groupName": "caddy"
+    },
+    {
+      "description": "Keep Semaphore server, runner and pro images in sync",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "semaphoreui/semaphore",
+        "semaphoreui/runner",
+        "public.ecr.aws/semaphore/pro/server",
+        "public.ecr.aws/semaphore/pro/runner"
+      ],
+      "groupName": "semaphore"
     }
   ]
 }
