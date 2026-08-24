@@ -33,6 +33,12 @@ services:
       - .env
        
     restart: always
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:3000/api/ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     environment:
       SEMAPHORE_WEB_ROOT: "{{ semaphore_url }}"
 
@@ -69,7 +75,7 @@ services:
       SEMAPHORE_EMAIL_ALERT: "True"
       SEMAPHORE_EMAIL_SENDER: "{{ semaphore_email_sender }}"
       SEMAPHORE_EMAIL_HOST: "{{ semaphore_email_host }}"
-      SEMAPHORE_EMAIL_PORT: "{{ semaphore_email_port }}""
+      SEMAPHORE_EMAIL_PORT: "{{ semaphore_email_port }}"
       SEMAPHORE_EMAIL_USERNAME: "${SEMAPHORE_EMAIL_USER}"
       SEMAPHORE_EMAIL_PASSWORD: "${SEMAPHORE_EMAIL_PASSWORD}"
       SEMAPHORE_EMAIL_SECURE: {{ semaphore_email_secure | default(false) | ternary("True", "False") }}
@@ -104,7 +110,8 @@ services:
 {% if semaphore_db_backend != "sqlite" %}
 
     depends_on:
-      - {{ semaphore_db_backend }}
+      {{ semaphore_db_backend }}:
+        condition: service_healthy
 
   {{ semaphore_db_backend }}:
     image: {{ semaphore_db_backend }}:{{ semaphore_db_version | default("latest") }}
@@ -120,6 +127,12 @@ services:
     volumes:
       - {{ semaphore_path }}/data/{{ semaphore_db_backend }}:{{ semaphore_db_backends[semaphore_db_backend].data_path }}
     restart: always
+    healthcheck:
+      test: {{ semaphore_db_backends[semaphore_db_backend].healthcheck | to_json }}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     networks:
       - semaphore_network
 {% endif %}
@@ -149,7 +162,8 @@ services:
       - {{ semaphore_path }}/data/caddy:/data
       - {{ semaphore_path }}/config/caddy:/config
     depends_on:
-      - semaphore
+      semaphore:
+        condition: service_healthy
     networks:
       - semaphore_network
 {% endif %}
