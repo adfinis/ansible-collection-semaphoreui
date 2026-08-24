@@ -8,8 +8,10 @@ semaphore_db_backends:
     port: "{{ semaphore_db_port | default(5432) }}"
     env_prefix: POSTGRES
     data_path: /var/lib/postgresql
+    healthcheck: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
 
   mysql:
     port: "{{ semaphore_db_port | default(3306) }}"
     env_prefix: MYSQL
     data_path: /var/lib/mysql
+    healthcheck: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u $${MYSQL_USER} -p$${MYSQL_PASSWORD}"]
