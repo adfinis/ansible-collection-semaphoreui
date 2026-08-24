@@ -94,6 +94,7 @@
     mode: "0640"
     backup: true
   ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   notify: Restart Semaphore
 
 - name: config-server | Write credentials to .env file
@@ -104,6 +105,7 @@
     group: root
     mode: "0640"
   ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   notify: Restart Semaphore
 
 - name: config-server | Create Caddy directories
@@ -129,6 +131,7 @@
     mode: "0644"
   notify: Restart Semaphore
   ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   when:
     - semaphore_use_caddy # default: false
 
@@ -154,6 +157,7 @@
     mode: "0640"
   notify: Restart Semaphore
   ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   when:
     - semaphore_use_caddy
     - semaphore_caddy_env | length > 0

@@ -107,6 +107,7 @@
     mode: "0640"
     backup: true
   ignore_errors: "{{ ansible_check_mode }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}"
   notify: Restart Semaphore
 
 - name: config-runner | Start Semaphore UI Runner stack via Docker Compose
