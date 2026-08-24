@@ -6,6 +6,15 @@
 
 {% endif %}
 {{ semaphore_url }} {
+{% if semaphore_caddy_dns_provider is defined %}
+    tls {
+        dns {{ semaphore_caddy_dns_provider }} {
+{% for key, value in semaphore_caddy_dns_provider_config.items() %}
+            {{ key }} {{ value }}
+{% endfor %}
+        }
+    }
+{% endif %}
 {% if semaphore_oidc_force_provider is defined %}
     redir /auth/login /api/auth/oidc/{{ semaphore_oidc_force_provider }}/login
 {% endif %}

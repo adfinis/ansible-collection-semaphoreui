@@ -1,0 +1,11 @@
+{{ ansible_managed | comment }}
+FROM docker.io/library/caddy:{{ semaphore_caddy_builder_version }}{{ '@' ~ semaphore_caddy_builder_digest if semaphore_caddy_builder_digest }} AS builder
+
+RUN xcaddy build \
+{% for module in semaphore_caddy_modules %}
+    --with {{ module }}{{ " \\" if not loop.last }}
+{% endfor %}
+
+FROM docker.io/library/caddy:{{ semaphore_caddy_version }}{{ '@' ~ semaphore_caddy_digest if semaphore_caddy_digest }}
+
+COPY --from=builder /usr/bin/caddy /usr/bin/caddy
