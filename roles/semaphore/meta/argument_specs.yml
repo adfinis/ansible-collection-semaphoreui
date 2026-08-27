@@ -70,9 +70,53 @@ argument_specs:
 
       semaphore_version:
         description: >-
-          Semaphore UI version string. Example: v2.19.8.
-          Can be found at https://github.com/semaphoreui/semaphore/releases
+          Override the tag of all Semaphore UI images at once, see
+          https://github.com/semaphoreui/semaphore/releases.
+          Disables digest pinning.
+        type: str
+
+      # renovate: datasource=docker depName=semaphoreui/semaphore
+      semaphore_server_version:
+        description: "Tag of the semaphoreui/semaphore image."
         default: "v2.19.8"
+        type: str
+
+      semaphore_server_digest:
+        description: "Digest of the semaphoreui/semaphore image. Set to '' to only pin by tag."
+        default: "sha256:7da3364f331a80d5d47998866f5833c8de978bd57ad49beb69ad2d1d0f3c5f20"
+        type: str
+
+      # renovate: datasource=docker depName=semaphoreui/runner
+      semaphore_runner_version:
+        description: "Tag of the semaphoreui/runner image."
+        default: "v2.19.8"
+        type: str
+
+      semaphore_runner_digest:
+        description: "Digest of the semaphoreui/runner image. Set to '' to only pin by tag."
+        default: "sha256:a26dfdb6aa8a34b80fa410211c67f833d691f88789c392a13b7e69f7e0265635"
+        type: str
+
+      # renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/server
+      semaphore_pro_server_version:
+        description: "Tag of the public.ecr.aws/semaphore/pro/server image."
+        default: "v2.19.8"
+        type: str
+
+      semaphore_pro_server_digest:
+        description: "Digest of the public.ecr.aws/semaphore/pro/server image. Set to '' to only pin by tag."
+        default: "sha256:7da3364f331a80d5d47998866f5833c8de978bd57ad49beb69ad2d1d0f3c5f20"
+        type: str
+
+      # renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/runner
+      semaphore_pro_runner_version:
+        description: "Tag of the public.ecr.aws/semaphore/pro/runner image."
+        default: "v2.19.8"
+        type: str
+
+      semaphore_pro_runner_digest:
+        description: "Digest of the public.ecr.aws/semaphore/pro/runner image. Set to '' to only pin by tag."
+        default: "sha256:a26dfdb6aa8a34b80fa410211c67f833d691f88789c392a13b7e69f7e0265635"
         type: str
 
       # -----------------------------------------------------------------------
@@ -242,6 +286,7 @@ argument_specs:
         default: 443
         type: int
 
+      # renovate: datasource=docker depName=caddy
       semaphore_caddy_version:
         description: "Tag of the Caddy runtime image (caddy:<tag>)."
         default: "2.11.4-alpine"
@@ -252,6 +297,7 @@ argument_specs:
         default: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
         type: str
 
+      # renovate: datasource=docker depName=caddy
       semaphore_caddy_builder_version:
         description: "Tag of the Caddy builder image, used when building with semaphore_caddy_modules."
         default: "2.11.4-builder"

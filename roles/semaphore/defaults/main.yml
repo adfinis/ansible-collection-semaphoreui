@@ -9,9 +9,22 @@ semaphore_type: server
 semaphore_timezone: UTC
 semaphore_git_client: go_git
 
-# Semaphore UI version, see:
+# Semaphore UI images, pinned by tag and digest, see:
 # https://github.com/semaphoreui/semaphore/releases
-semaphore_version: v2.19.8
+# Set semaphore_version to override all tags at once (disables digest pinning).
+# semaphore_version: v2.19.8
+# renovate: datasource=docker depName=semaphoreui/semaphore
+semaphore_server_version: "v2.19.8"
+semaphore_server_digest: "sha256:7da3364f331a80d5d47998866f5833c8de978bd57ad49beb69ad2d1d0f3c5f20"
+# renovate: datasource=docker depName=semaphoreui/runner
+semaphore_runner_version: "v2.19.8"
+semaphore_runner_digest: "sha256:a26dfdb6aa8a34b80fa410211c67f833d691f88789c392a13b7e69f7e0265635"
+# renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/server
+semaphore_pro_server_version: "v2.19.8"
+semaphore_pro_server_digest: "sha256:7da3364f331a80d5d47998866f5833c8de978bd57ad49beb69ad2d1d0f3c5f20"
+# renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/runner
+semaphore_pro_runner_version: "v2.19.8"
+semaphore_pro_runner_digest: "sha256:a26dfdb6aa8a34b80fa410211c67f833d691f88789c392a13b7e69f7e0265635"
 
 # when caddy is enabled as reverse proxy, this port is NOT exposed
 semaphore_port: 3000

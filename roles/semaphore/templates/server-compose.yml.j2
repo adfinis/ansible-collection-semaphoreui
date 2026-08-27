@@ -4,9 +4,9 @@
 services:
   semaphore:
 {% if semaphore_pro %}
-    image: public.ecr.aws/semaphore/pro/server:{{ semaphore_version }}
+    image: public.ecr.aws/semaphore/pro/server:{{ semaphore_version | default(semaphore_pro_server_version) }}{{ '@' ~ semaphore_pro_server_digest if semaphore_pro_server_digest and semaphore_version is not defined }}
 {% else %}
-    image: semaphoreui/semaphore:{{ semaphore_version }}
+    image: semaphoreui/semaphore:{{ semaphore_version | default(semaphore_server_version) }}{{ '@' ~ semaphore_server_digest if semaphore_server_digest and semaphore_version is not defined }}
 {% endif %}
     container_name: semaphore
 {% if not semaphore_use_caddy %}
