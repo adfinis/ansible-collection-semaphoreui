@@ -14,17 +14,17 @@ semaphore_git_client: go_git
 # Set semaphore_version to override all tags at once (disables digest pinning).
 # semaphore_version: v2.19.8
 # renovate: datasource=docker depName=semaphoreui/semaphore
-semaphore_server_version: "v2.19.8"
-semaphore_server_digest: "sha256:7da3364f331a80d5d47998866f5833c8de978bd57ad49beb69ad2d1d0f3c5f20"
+semaphore_server_version: "v2.19.11"
+semaphore_server_digest: "sha256:ff02a82bea1f1c213f952096df64c567636b340213697ace74cfc285d31dcd37"
 # renovate: datasource=docker depName=semaphoreui/runner
-semaphore_runner_version: "v2.19.8"
-semaphore_runner_digest: "sha256:a26dfdb6aa8a34b80fa410211c67f833d691f88789c392a13b7e69f7e0265635"
+semaphore_runner_version: "v2.19.11"
+semaphore_runner_digest: "sha256:89f39470e70f5d61723a4495b8c0032fe6ee76d282cec48eae572a37b44c6302"
 # renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/server
-semaphore_pro_server_version: "v2.19.8"
-semaphore_pro_server_digest: "sha256:7da3364f331a80d5d47998866f5833c8de978bd57ad49beb69ad2d1d0f3c5f20"
+semaphore_pro_server_version: "v2.19.11"
+semaphore_pro_server_digest: "sha256:ff02a82bea1f1c213f952096df64c567636b340213697ace74cfc285d31dcd37"
 # renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/runner
-semaphore_pro_runner_version: "v2.19.8"
-semaphore_pro_runner_digest: "sha256:a26dfdb6aa8a34b80fa410211c67f833d691f88789c392a13b7e69f7e0265635"
+semaphore_pro_runner_version: "v2.19.11"
+semaphore_pro_runner_digest: "sha256:89f39470e70f5d61723a4495b8c0032fe6ee76d282cec48eae572a37b44c6302"
 
 # when caddy is enabled as reverse proxy, this port is NOT exposed
 semaphore_port: 3000
