@@ -78,45 +78,45 @@ argument_specs:
       # renovate: datasource=docker depName=semaphoreui/semaphore
       semaphore_server_version:
         description: "Tag of the semaphoreui/semaphore image."
-        default: "v2.19.11"
+        default: "v2.19.12"
         type: str
 
       semaphore_server_digest:
         description: "Digest of the semaphoreui/semaphore image. Set to '' to only pin by tag."
-        default: "sha256:ff02a82bea1f1c213f952096df64c567636b340213697ace74cfc285d31dcd37"
+        default: "sha256:3996804607ebb63690528185bb9adc3507ee896851098e4453975f2ce7f8b435"
         type: str
 
       # renovate: datasource=docker depName=semaphoreui/runner
       semaphore_runner_version:
         description: "Tag of the semaphoreui/runner image."
-        default: "v2.19.11"
+        default: "v2.19.12"
         type: str
 
       semaphore_runner_digest:
         description: "Digest of the semaphoreui/runner image. Set to '' to only pin by tag."
-        default: "sha256:89f39470e70f5d61723a4495b8c0032fe6ee76d282cec48eae572a37b44c6302"
+        default: "sha256:e9610ae51d29b704d17f578d63aecb4296f413e35c5b0a454affff2de26eb7f2"
         type: str
 
       # renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/server
       semaphore_pro_server_version:
         description: "Tag of the public.ecr.aws/semaphore/pro/server image."
-        default: "v2.19.11"
+        default: "v2.19.12"
         type: str
 
       semaphore_pro_server_digest:
         description: "Digest of the public.ecr.aws/semaphore/pro/server image. Set to '' to only pin by tag."
-        default: "sha256:ff02a82bea1f1c213f952096df64c567636b340213697ace74cfc285d31dcd37"
+        default: "sha256:3996804607ebb63690528185bb9adc3507ee896851098e4453975f2ce7f8b435"
         type: str
 
       # renovate: datasource=docker depName=public.ecr.aws/semaphore/pro/runner
       semaphore_pro_runner_version:
         description: "Tag of the public.ecr.aws/semaphore/pro/runner image."
-        default: "v2.19.11"
+        default: "v2.19.12"
         type: str
 
       semaphore_pro_runner_digest:
         description: "Digest of the public.ecr.aws/semaphore/pro/runner image. Set to '' to only pin by tag."
-        default: "sha256:89f39470e70f5d61723a4495b8c0032fe6ee76d282cec48eae572a37b44c6302"
+        default: "sha256:e9610ae51d29b704d17f578d63aecb4296f413e35c5b0a454affff2de26eb7f2"
         type: str
 
       # -----------------------------------------------------------------------
