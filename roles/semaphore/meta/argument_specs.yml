@@ -305,7 +305,7 @@ argument_specs:
 
       semaphore_caddy_builder_digest:
         description: "Digest of the Caddy builder image. Set to '' to only pin by tag."
-        default: "sha256:4bdeabce8e79d36b23d1cba7d20598cec2c1117ace960d8ca06071f945e8fc9b"
+        default: "sha256:b8f9c720f13f64c13dd42db28e8f38a3fab54c11fce4d93bda26d710c448dcfd"
         type: str
 
       semaphore_caddy_dns_provider:

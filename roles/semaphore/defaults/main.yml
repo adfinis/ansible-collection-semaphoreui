@@ -95,7 +95,7 @@ semaphore_caddy_version: "2.11.4-alpine"
 semaphore_caddy_digest: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
 # renovate: datasource=docker depName=caddy
 semaphore_caddy_builder_version: "2.11.4-builder"
-semaphore_caddy_builder_digest: "sha256:4bdeabce8e79d36b23d1cba7d20598cec2c1117ace960d8ca06071f945e8fc9b"
+semaphore_caddy_builder_digest: "sha256:b8f9c720f13f64c13dd42db28e8f38a3fab54c11fce4d93bda26d710c448dcfd"
 # optional: use the ACME DNS-01 challenge with a caddy-dns provider, e.g. "azure"
 # semaphore_caddy_dns_provider: azure
 semaphore_caddy_dns_provider_config: {}
