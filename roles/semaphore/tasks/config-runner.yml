@@ -13,6 +13,33 @@
   loop: "{{ semaphore_runner_services }}"
   no_log: "{{ semaphore_ansible_no_log | bool }}"
 
+- name: config-runner | Verify that Runner executors are valid
+  ansible.builtin.assert:
+    that:
+      - item.executor.type | default('local') in ['local', 'docker', 'k8s']
+      - not (item.executor.type | default('local') != 'local' and not semaphore_pro)
+    fail_msg: >-
+      Runner '{{ item.name }}': executor.type must be local, docker or k8s;
+      docker and k8s require semaphore_pro.
+  loop: "{{ semaphore_runner_services }}"
+  loop_control:
+    label: "{{ item.name }}"
+  no_log: "{{ semaphore_ansible_no_log | bool }}" # a bit unconvenient, but otherwise we leak the token
+
+- name: config-runner | Look up the Docker socket group
+  ansible.builtin.stat:
+    path: "{{ semaphore_runner_docker_socket }}"
+    follow: true
+  register: _semaphore_runner_docker_socket_stat
+  when:
+    - semaphore_runner_docker_socket | length > 0
+    - semaphore_runner_services
+      | selectattr('executor.type', 'defined')
+      | selectattr('executor.type', 'equalto', 'docker')
+      | map(attribute='executor.docker.host', default='')
+      | select('match', '^(unix://|$)')
+      | list | length > 0
+
 - name: config-runner | Create Semaphore directories
   ansible.builtin.file:
     path: "{{ item }}"

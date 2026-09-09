@@ -43,6 +43,10 @@ services:
       SEMAPHORE_WEB_ROOT: "{{ semaphore_url }}"
 
       SEMAPHORE_DB_DIALECT: "{{ semaphore_db_backend }}"
+      SEMAPHORE_GIT_CLIENT: "{{ semaphore_git_client }}"
+{% if semaphore_use_remote_runner %}
+      SEMAPHORE_USE_REMOTE_RUNNER: "True"
+{% endif %}
 {% if semaphore_db_backend != "sqlite" %}
       SEMAPHORE_DB_NAME: "{{ semaphore_db_name }}"
       SEMAPHORE_DB_HOST: "{{ semaphore_db_backend }}"
