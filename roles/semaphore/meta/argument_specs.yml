@@ -48,6 +48,11 @@ argument_specs:
         default: "go_git"
         type: str
 
+      semaphore_use_remote_runner:
+        description: "Run tasks exclusively on remote runners instead of on the server itself."
+        default: false
+        type: bool
+
       semaphore_port:
         description: "Port for Semaphore UI. If Caddy is enabled, this port is NOT exposed externally."
         default: 3000
@@ -357,6 +362,23 @@ argument_specs:
         description: "List of Python packages to install on Runners (defaults to same as Server)."
         default: []
         type: list
+
+      # -----------------------------------------------------------------------
+      # Runners
+      # -----------------------------------------------------------------------
+      semaphore_runner_services:
+        description: >-
+          Runner containers.
+        type: list
+        elements: dict
+        default: []
+
+      semaphore_runner_docker_socket:
+        description: >-
+          Host Docker socket, mounted into Runners with the docker executor.
+          '' disables the mount.
+        default: "/var/run/docker.sock"
+        type: str
 
       # -----------------------------------------------------------------------
       # Email

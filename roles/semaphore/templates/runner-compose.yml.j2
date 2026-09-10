@@ -3,6 +3,13 @@
 
 services:
 {% for service in semaphore_runner_services %}
+{% set _executor = service.executor | default({}) %}
+{# mount the host socket for the docker executor unless a tcp:// daemon is configured #}
+{% set _docker_host = _executor.docker.host | default('') %}
+{% set _mount_docker_socket = _executor.type | default('local') == 'docker'
+     and (_docker_host == '' or _docker_host.startswith('unix://'))
+     and semaphore_runner_docker_socket %}
+{% set _docker_socket_dest = _docker_host[7:] if _docker_host.startswith('unix://') else '/var/run/docker.sock' %}
 {% if service.description is defined %}
 {{ service.description | comment }}
 {% endif %}
@@ -23,12 +30,29 @@ services:
 {% if service.python_requirements | default(semaphore_runner_python_requirements) is defined and service.python_reuquirements | default(semaphore_runner_python_requirements) | length > 0 %}
       - {{ semaphore_path }}/config/{{ service.name }}/requirements.txt:/etc/semaphore/requirements.txt
 {% endif %}
+{% if _mount_docker_socket %}
+      - {{ semaphore_runner_docker_socket }}:{{ _docker_socket_dest }}
+{% endif %}
+{% for volume in service.extra_volumes | default([]) %}
+      - {{ volume }}
+{% endfor %}
+{% set _group_add = service.group_add | default([]) | map('string') | list %}
+{% if _mount_docker_socket and _semaphore_runner_docker_socket_stat.stat.gid is defined %}
+{% set _group_add = _group_add + [_semaphore_runner_docker_socket_stat.stat.gid | string] %}
+{% endif %}
+{% if _group_add | length > 0 %}
+    group_add: {{ _group_add | unique | list | to_json }}
+{% endif %}
     restart: always
     environment:
       SEMAPHORE_RUNNER_NAME: {{ service.name }}
       SEMAPHORE_RUNNER_TOKEN: {{ service.token }}
       SEMAPHORE_WEB_ROOT: {{ semaphore_url }}
       SEMAPHORE_TMP_PATH: /tmp/semaphore
+{% if _executor %}
+{# JSON-encode the executor object, then encode again to quote it as a YAML string #}
+      SEMAPHORE_RUNNER_EXECUTOR: {{ _executor | to_json | to_json }}
+{% endif %}
 {% if service.extra_envs is defined %}
 {% for key, value  in service.extra_envs.items() %}
       {{ key }}: {{ value }}

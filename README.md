@@ -145,6 +145,42 @@ semaphore_caddy_env:
   AZURE_RESOURCE_GROUP_NAME: "..."
 ```
 
+##### Runners
+
+Hosts with `semaphore_type: runner` can define multiple runners in `semaphore_runner_services`.
+
+Set `semaphore_use_remote_runner: true` on the server to run tasks exclusively on
+remote runners instead of on the server itself.
+
+The `token` comes from the UI (Account > Runners > New Runner):
+
+``` yaml
+semaphore_runner_services:
+  - name: semaphore-runner-01
+    token: "..."
+    extra_envs:
+      SEMAPHORE_RUNNER_MAX_PARALLEL_TASKS: 4
+    extra_volumes:
+      - /opt/certs:/etc/ssl/custom:ro
+```
+
+##### Docker executor (Pro)
+
+Pro Runners can run each task in an ephemeral container:
+
+``` yaml
+semaphore_pro: true
+semaphore_runner_services:
+  - name: semaphore-runner-docker
+    token: "..."
+    executor:
+      type: docker
+      docker:
+        image: registry.example.com/ansible-ee:1.0.0   # default: semaphoreui/job:latest
+        pull_policy: always
+        memory_limit: 2g
+```
+
 ##### Playbook
 The Ansible Collection features a playbook to call the role `adfinis.semaphoreui.semaphore` without having to write one yourself:
 ``` bash
