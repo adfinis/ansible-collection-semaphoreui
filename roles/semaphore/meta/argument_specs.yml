@@ -299,7 +299,7 @@ argument_specs:
 
       semaphore_caddy_digest:
         description: "Digest of the Caddy runtime image. Set to '' to only pin by tag."
-        default: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
+        default: "sha256:de23def33b17fb5d1290b0f6c2add1d70780e52341896c00a4c8a2a2fe9d355e"
         type: str
 
       # renovate: datasource=docker depName=caddy
@@ -310,7 +310,7 @@ argument_specs:
 
       semaphore_caddy_builder_digest:
         description: "Digest of the Caddy builder image. Set to '' to only pin by tag."
-        default: "sha256:403d237d0bb16d2e62b1f93ca9ebb4953ecbb78aee5986765713a39f9263a5b4"
+        default: "sha256:401121e61853cb9c7df83cba43e532e49a68e30f32921c7bdcb7a4912168c067"
         type: str
 
       semaphore_caddy_dns_provider:

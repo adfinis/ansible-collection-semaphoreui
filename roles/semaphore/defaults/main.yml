@@ -92,10 +92,10 @@ semaphore_caddy_http_port: 80
 semaphore_caddy_https_port: 443
 # renovate: datasource=docker depName=caddy
 semaphore_caddy_version: "2.11.4-alpine"
-semaphore_caddy_digest: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
+semaphore_caddy_digest: "sha256:de23def33b17fb5d1290b0f6c2add1d70780e52341896c00a4c8a2a2fe9d355e"
 # renovate: datasource=docker depName=caddy
 semaphore_caddy_builder_version: "2.11.4-builder"
-semaphore_caddy_builder_digest: "sha256:403d237d0bb16d2e62b1f93ca9ebb4953ecbb78aee5986765713a39f9263a5b4"
+semaphore_caddy_builder_digest: "sha256:401121e61853cb9c7df83cba43e532e49a68e30f32921c7bdcb7a4912168c067"
 # optional: use the ACME DNS-01 challenge with a caddy-dns provider, e.g. "azure"
 # semaphore_caddy_dns_provider: azure
 semaphore_caddy_dns_provider_config: {}
