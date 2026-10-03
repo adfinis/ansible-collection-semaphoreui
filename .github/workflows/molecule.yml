@@ -28,7 +28,7 @@ jobs:
           persist-credentials: false
 
       - name: molecule
-        uses: gofrolist/molecule-action@b24fe8b4175435054a4a07897d411a62778ca285 # v2.9.11
+        uses: gofrolist/molecule-action@4152624b1648c3117fd9c8f1fee1e1609cbb9284 # v2.9.15
         with:
           molecule_working_dir: "${{ github.repository }}/extensions"
           molecule_args: "-s ${{ matrix.scenario }}"
