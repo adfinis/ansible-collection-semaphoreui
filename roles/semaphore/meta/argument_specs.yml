@@ -294,23 +294,23 @@ argument_specs:
       # renovate: datasource=docker depName=caddy
       semaphore_caddy_version:
         description: "Tag of the Caddy runtime image (caddy:<tag>)."
-        default: "2.11.4-alpine"
+        default: "2.11.7-alpine"
         type: str
 
       semaphore_caddy_digest:
         description: "Digest of the Caddy runtime image. Set to '' to only pin by tag."
-        default: "sha256:5f5c8640aae01df9654968d946d8f1a56c497f1dd5c5cda4cf95ab7c14d58648"
+        default: "sha256:d8542f48d34a9cf4e4c11a478865229840e87e4c96ea3f439101f31a5d35f75f"
         type: str
 
       # renovate: datasource=docker depName=caddy
       semaphore_caddy_builder_version:
         description: "Tag of the Caddy builder image, used when building with semaphore_caddy_modules."
-        default: "2.11.4-builder"
+        default: "2.11.7-builder"
         type: str
 
       semaphore_caddy_builder_digest:
         description: "Digest of the Caddy builder image. Set to '' to only pin by tag."
-        default: "sha256:403d237d0bb16d2e62b1f93ca9ebb4953ecbb78aee5986765713a39f9263a5b4"
+        default: "sha256:b25f47453fa02f7e66c0828b4b1343658808b9000950b6825c4a1cb0c988f5f8"
         type: str
 
       semaphore_caddy_dns_provider:
