@@ -8,7 +8,7 @@ jobs:
   test:
     runs-on: ubuntu-24.04 # ubuntu latest will for all RHEL-based distros: https://github.com/rocky-linux/sig-cloud-instance-images/issues/56
     container:
-      image: python:3.14@sha256:e06cc1111ed84189e91866447f562b89faadbfbbb9937cd67e6bf4172cdb45df
+      image: python:3.14@sha256:46a17be7cf526995fbf12177b40c248de30b40c1a509a4c7e5da954226f6885b
     strategy:
       fail-fast: false
       matrix:
